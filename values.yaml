@@ -240,7 +240,7 @@ hostNetwork: false
 
 init:
   repository: nexflare73/docker-sync
-  tag: latest
+  tag: 0.0.2
   pullPolicy: IfNotPresent
 
 image:
@@ -256,7 +256,7 @@ image:
   ##
   # image.pullSecrets -- Image pull secrets
   pullSecrets: {}
-  # - myRegistrKeySecretName
+  # myRegistrKeySecretName: your docker config.json base64 encoded
 
 # kubeTargetVersionOverride -- Allow overriding the `.Capabilities.KubeVersion.GitVersion` check. Useful for `helm template` commands.
 kubeTargetVersionOverride: ""
