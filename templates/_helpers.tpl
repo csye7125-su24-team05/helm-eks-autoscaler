@@ -158,3 +158,14 @@ Return the autodiscoveryparameters for clusterapi.
     {{ include "cluster-autoscaler.capiAutodiscovery.labels" . }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+get imagepull secrets name
+*/}}
+{{- define "cluster-autoscaler.pullSecrets" -}}
+{{- if .Values.image.pullSecrets }}
+{{- range $secretName := keys .Values.image.pullSecrets }}
+- name: {{ $secretName }}
+{{- end }}
+{{- end }}
+{{- end }}
