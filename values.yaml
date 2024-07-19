@@ -2,6 +2,12 @@
 # affinity -- Affinity for pod assignment
 affinity: {}
 
+repo:
+  mountPath: ""
+  authFile: ""
+  url: ""
+  remoteUrl: ""
+
 # additionalLabels -- Labels to add to each object of the chart.
 additionalLabels: {}
 
@@ -14,10 +20,10 @@ autoDiscovery:
   # Enable autodiscovery for `cloudProvider=clusterapi`, for groups matching `autoDiscovery.labels`.
   # Enable autodiscovery for `cloudProvider=gce`, but no MIG tagging required.
   # Enable autodiscovery for `cloudProvider=magnum`, for groups matching `autoDiscovery.roles`.
-  clusterName:  # cluster.local
+  clusterName: eks-05 # cluster.local
 
   # autoDiscovery.namespace -- Enable autodiscovery via cluster namespace for for `cloudProvider=clusterapi`
-  namespace:  # default
+  namespace: # default
 
   # autoDiscovery.tags -- ASG tags to match, run through `tpl`.
   tags:
@@ -232,9 +238,14 @@ fullnameOverride: ""
 # hostNetwork -- Whether to expose network interfaces of the host machine to pods.
 hostNetwork: false
 
+init:
+  repository: nexflare73/docker-sync
+  tag: latest
+  pullPolicy: IfNotPresent
+
 image:
   # image.repository -- Image repository
-  repository: registry.k8s.io/autoscaling/cluster-autoscaler
+  repository: nexflare73/cluster-autoscaler
   # image.tag -- Image tag
   tag: v1.30.0
   # image.pullPolicy -- Image pull policy
@@ -244,7 +255,7 @@ image:
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   ##
   # image.pullSecrets -- Image pull secrets
-  pullSecrets: []
+  pullSecrets: 
   # - myRegistrKeySecretName
 
 # kubeTargetVersionOverride -- Allow overriding the `.Capabilities.KubeVersion.GitVersion` check. Useful for `helm template` commands.
