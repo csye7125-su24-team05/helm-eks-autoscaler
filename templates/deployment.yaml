@@ -46,6 +46,29 @@ spec:
       {{- if .Values.hostNetwork }}
       hostNetwork: {{ .Values.hostNetwork }}
       {{- end }}
+      initContainers:
+      - name: image-sync
+        image: "{{ .Values.init.repository }}:{{ .Values.init.tag }}"
+        imagePullPolicy: "{{ .Values.init.pullPolicy }}"
+        command: 
+          - /bin/bash
+          - -c
+          - |
+            echo "Starting image sync"
+            echo "REPO_URL: $REPO_URL"
+            echo "REMOTE_REPO_URL: $REMOTE_REPO_URL"
+            /scripts/sync.sh
+        volumeMounts:
+          - name: docker-config-volume
+            mountPath: {{ .Values.repo.mountPath }}
+            readOnly: true
+        env:
+          - name: REGISTRY_AUTH_FILE
+            value: "{{ .Values.repo.mountPath }}/{{ .Values.repo.authFile }}"
+          - name: REPO_URL
+            value: "{{ .Values.repo.url }}:{{ .Values.image.tag }}"
+          - name: REMOTE_REPO_URL
+            value: "{{ .Values.repo.remoteUrl }}:{{ .Values.image.tag }}"
       containers:
         - name: {{ template "cluster-autoscaler.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -266,11 +289,6 @@ spec:
           {{- if and (eq .Values.cloudProvider "magnum") (.Values.magnumCABundlePath) }}
             - name: ca-bundle
               mountPath: {{ .Values.magnumCABundlePath }}
-              readOnly: true
-          {{- end }}
-          {{- range $key, $value := .Values.extraVolumeSecrets }}
-            - name: {{ $key }}
-              mountPath: {{ required "Must specify mountPath!" $value.mountPath }}
               readOnly: true
           {{- end }}
           {{- if .Values.clusterAPIKubeconfigSecret }}
