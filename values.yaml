@@ -2,12 +2,6 @@
 # affinity -- Affinity for pod assignment
 affinity: {}
 
-repo:
-  mountPath: ""
-  authFile: ""
-  url: ""
-  remoteUrl: ""
-
 # additionalLabels -- Labels to add to each object of the chart.
 additionalLabels: {}
 
@@ -237,11 +231,6 @@ fullnameOverride: ""
 
 # hostNetwork -- Whether to expose network interfaces of the host machine to pods.
 hostNetwork: false
-
-init:
-  repository: nexflare73/docker-sync
-  tag: 0.0.2
-  pullPolicy: IfNotPresent
 
 image:
   # image.repository -- Image repository
