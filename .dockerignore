@@ -1,0 +1,8 @@
+.jenkin/
+.git/
+.helmignore
+.releaserc
+README.md
+values.yaml
+templates/
+Chart.yaml
