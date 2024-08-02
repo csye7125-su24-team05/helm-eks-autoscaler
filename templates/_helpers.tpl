@@ -164,8 +164,8 @@ get imagepull secrets name
 */}}
 {{- define "cluster-autoscaler.pullSecrets" -}}
 {{- if .Values.image.pullSecrets }}
-{{- range $secretName := keys .Values.image.pullSecrets }}
-- name: {{ $secretName }}
+{{- range .Values.image.pullSecrets }}
+- name: {{ . }}
 {{- end }}
 {{- end }}
 {{- end }}
